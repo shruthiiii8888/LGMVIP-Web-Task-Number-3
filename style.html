@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Form with Photo</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-container,
+.details {
+  flex: 1;
+}
+
+form {
+  width: 100%;
+  max-width: 500px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid gray;
+}
+
+textarea {
+  height: 200px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.photo-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.photo {
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
+}
+
+.details {
+  padding: 20px;
+  border: 1px solid gray;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="form-container">
+    <form action="form.php" method="post">
+      <label for="name">Your Name:</label>
+      <input type="text" name="name" id="name" placeholder="Your Name">
+
+      <label for="email">Your Email:</label>
+      <input type="email" name="email" id="email" placeholder="Your Email">
+
+      <label for="phone">Your Phone:</label>
+      <input type="text" name="phone" id="phone" placeholder="Your Phone">
+
+      <label for="message">Your Message:</label>
+      <textarea name="message" id="message" placeholder="Your Message"></textarea>
+
+      <label for="photo">Select a Photo:</label>
+      <input type="file" name="photo" id="photo">
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div class="details">
+    <h2>Details</h2>
+    <p><strong>Name:</strong> <span id="details-name"></span></p>
+    <p><strong>Email:</strong> <span id="details-email"></span></p>
+    <p><strong>Phone:</strong> <span id="details-phone"></span></p>
+    <p><strong>Message:</strong> <span id="details-message"></span></p>
+    <p><strong>Photo:</strong></p>
+    <div class="photo-container">
+      <div class="photo"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showDetails(event) {
+  event.preventDefault();
+
+  const name = document.querySelector("input[name='name']").value;
+  const email = document.querySelector("input[name='email']").value;
+  const phone = document.querySelector("input[name='phone']").value;
+  const message = document.querySelector("textarea[name='message']").value;
+  const photo = document.querySelector("input[name='photo']").files[0];
+
+  document.getElementById("details-name").textContent = name;
+  document.getElementById("details-email").textContent = email;
+  document.getElementById("details-phone").textContent = phone;
+  document.getElementById("details-message").textContent = message;
+
+  const photoContainer = document.querySelector(".photo");
+  const img = document.createElement("img");
+  img.src = URL.createObjectURL(photo);
+  img.alt = photo.name;
+  img.style.width = "100%";
+  img.style.height = "100%";
+  photoContainer.innerHTML = ""; // Clear any previous content
+  photoContainer.appendChild(img);
+
+  document.querySelector(".details").style.display = "block";
+}
+
+document.querySelector("form").addEventListener("submit", showDetails);
+</script>
+
+</body>
+</html>
